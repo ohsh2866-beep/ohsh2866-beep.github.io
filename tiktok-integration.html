@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TikTok integration | Trend Radar Daily</title>
+<meta name="description" content="How Trend Radar Daily uses TikTok Login Kit and the Content Posting API to upload daily AI news videos as drafts to its own accounts.">
+<style>*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',sans-serif;
+line-height:1.7;color:#1a1a1a;background:#fff}
+a{color:#0b5fff;text-decoration:none}a:hover{text-decoration:underline}
+header{background:#0f172a;color:#fff;padding:0}
+nav{max-width:1000px;margin:0 auto;padding:18px 24px;display:flex;gap:28px;align-items:center;flex-wrap:wrap}
+nav .logo{font-weight:700;font-size:19px;color:#fff;margin-right:auto}
+nav a{color:#cbd5e1;font-size:15px}nav a:hover{color:#fff}
+.hero{background:linear-gradient(135deg,#0f172a,#1e3a8a);color:#fff;padding:64px 24px}
+.hero-inner{max-width:1000px;margin:0 auto}
+.hero h1{font-size:38px;line-height:1.3;margin-bottom:16px}
+.hero p{font-size:18px;color:#dbeafe;max-width:680px}
+main{max-width:1000px;margin:0 auto;padding:48px 24px}
+section{margin-bottom:56px}
+h2{font-size:26px;margin-bottom:8px;color:#0f172a}
+h3{font-size:19px;margin:24px 0 8px;color:#0f172a}
+.lead{color:#475569;margin-bottom:24px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.card{border:1px solid #e2e8f0;border-radius:10px;padding:22px;background:#fff}
+.card h3{margin-top:0}
+.card .meta{font-size:13px;color:#64748b;margin-bottom:12px}
+ul{padding-left:20px;margin:12px 0}li{margin:6px 0}
+.list{list-style:none;padding:0}
+.list li{padding:12px 0;border-bottom:1px solid #f1f5f9}
+.list li:last-child{border-bottom:none}
+.list .date{font-size:13px;color:#64748b;display:block}
+.steps{counter-reset:s;list-style:none;padding:0}
+.steps li{counter-increment:s;padding:16px 0 16px 46px;position:relative;border-bottom:1px solid #f1f5f9}
+.steps li::before{content:counter(s);position:absolute;left:0;top:16px;width:30px;height:30px;
+border-radius:50%;background:#0b5fff;color:#fff;display:flex;align-items:center;justify-content:center;
+font-weight:600;font-size:14px}
+.steps li:last-child{border-bottom:none}
+.note{background:#f8fafc;border-left:3px solid #0b5fff;padding:16px 20px;border-radius:0 8px 8px 0;margin:20px 0}
+table{width:100%;border-collapse:collapse;margin:16px 0}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid #e2e8f0;font-size:15px}
+th{background:#f8fafc;font-weight:600}
+footer{background:#f8fafc;border-top:1px solid #e2e8f0;padding:32px 24px;margin-top:40px}
+.footer-inner{max-width:1000px;margin:0 auto;color:#64748b;font-size:14px}
+.footer-inner a{color:#475569}
+.tag{display:inline-block;background:#eff6ff;color:#1d4ed8;padding:3px 10px;border-radius:99px;
+font-size:13px;margin:3px 4px 3px 0}
+@media(max-width:640px){.hero h1{font-size:28px}nav{gap:16px}}</style>
+</head>
+<body>
+<header>
+<nav>
+<a class="logo" href="/">Trend Radar Daily</a>
+<a href="/">Home</a>
+<a href="/channels.html">Channels</a>
+<a href="/how-it-works.html">How it works</a>
+<a href="/tiktok-integration.html">TikTok integration</a>
+<a href="/terms.html">Terms</a>
+<a href="/privacy.html">Privacy</a>
+</nav>
+</header>
+
+<div class="hero"><div class="hero-inner">
+<h1>TikTok integration</h1>
+<p>How Trend Radar Daily uses the TikTok Content Posting API and Login Kit.</p>
+</div></div>
+<main>
+<section>
+<h2>What we use, and why</h2>
+<table>
+<tr><th>Product / scope</th><th>How this service uses it</th></tr>
+<tr><td><strong>Login Kit</strong><br>user.info.basic</td>
+<td>The operator signs in with the TikTok account that owns each of our two channels, so the
+service knows which authorized account a video belongs to. We read only the basic profile
+(open id, display name) to confirm the correct account is connected. No other user data is read.</td></tr>
+<tr><td><strong>Content Posting API</strong><br>video.upload</td>
+<td>After the daily video is produced, the file is uploaded to the authorized account's TikTok
+inbox as a draft. The operator opens TikTok, reviews the draft, and posts it. Nothing is published
+without that human step.</td></tr>
+</table>
+</section>
+
+<section>
+<h2>End-to-end flow</h2>
+<ol class="steps">
+<li>The operator authorizes our TikTok account through Login Kit. The access token is stored locally
+on the operator's own machine and is never shared.</li>
+<li>The daily pipeline produces a vertical video - the same file that goes to YouTube Shorts.</li>
+<li>The service calls the Content Posting API to send that file to the authorized account's inbox
+as a draft, using the video.upload scope.</li>
+<li>The operator opens the TikTok app, reviews the draft, adds or edits the caption, and posts it.</li>
+</ol>
+<div class="note"><p>We request <strong>video.upload</strong> only, not direct posting. Every video
+passes through a human review step inside the TikTok app before it reaches an audience.</p></div>
+</section>
+
+<section>
+<h2>Scope of use</h2>
+<ul>
+<li>Videos are uploaded only to the two TikTok accounts we own and operate.</li>
+<li>The service has no other users. It is a single-operator tool, not a platform offering posting
+on behalf of others.</li>
+<li>No TikTok data is stored beyond the access token and the account's open id, both kept locally.</li>
+<li>Videos are the same AI-assisted news briefings published on our YouTube and Instagram channels,
+labeled as AI-generated.</li>
+</ul>
+<p style="margin-top:16px">Questions about this integration: <a href="mailto:ohsh2866@gmail.com">ohsh2866@gmail.com</a></p>
+</section>
+</main>
+<footer><div class="footer-inner">
+<p><strong>Trend Radar Daily</strong> - an independent AI news briefing service operated by an individual creator.</p>
+<p style="margin-top:8px">Contact: <a href="mailto:ohsh2866@gmail.com">ohsh2866@gmail.com</a> ·
+<a href="/terms.html">Terms of Service</a> · <a href="/privacy.html">Privacy Policy</a></p>
+<p style="margin-top:8px">© 2026 Trend Radar Daily. Content is produced with AI assistance from publicly
+available news sources and reviewed by the operator before publication.</p>
+</div></footer>
+</body>
+</html>
